@@ -62,6 +62,21 @@ canvas#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.hero{animation:fadeUp 0.7s ease both}
 .cards{animation:fadeUp 0.7s 0.2s ease both;opacity:0;animation-fill-mode:forwards}
 .footer{animation:fadeUp 0.7s 0.35s ease both;opacity:0;animation-fill-mode:forwards}
+
+@media(max-width:600px){
+  .page{padding:3rem 1.2rem 4rem}
+  .hero{min-height:30vh;padding-bottom:2.5rem}
+  .title-main{font-size:clamp(38px,14vw,64px);letter-spacing:-0.03em;white-space:nowrap}
+  .binary-ticker{margin-top:0.8rem}
+  .card{padding:1.2rem 1rem;align-items:flex-start}
+  .card-name{font-size:15px;white-space:normal}
+  .card-desc{font-size:10px}
+  .card-num{font-size:9px}
+  .arrow{padding-top:2px;font-size:13px;align-self:center}
+  .section-label{margin-bottom:1.2rem;font-size:9px}
+  .footer{margin-top:2rem}
+  .tag{font-size:8px;padding:2px 5px}
+}
 </style>
 </head>
 <body>
