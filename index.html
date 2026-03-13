@@ -26,32 +26,25 @@ canvas#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
 .section-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:#3a2f52;text-transform:uppercase;display:flex;align-items:center;gap:14px;margin-bottom:2rem}
 .section-label::after{content:'';flex:1;height:1px;background:#1a1228}
 
-.cards{display:flex;flex-direction:column;gap:1px;background:#1a1228;border-radius:6px;overflow:hidden}
-.card{background:#110d1c;padding:1.8rem 2rem;display:flex;justify-content:space-between;align-items:center;gap:1.5rem;text-decoration:none;color:inherit;transition:background 0.3s;position:relative;overflow:hidden}
-.card::after{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:transparent;transition:background 0.3s}
-.card.active-rpg{background:#0b1a0e}
-.card.active-nani{background:#1a0808}
-.card.active-coin{background:#14100a}
-.card.active-rpg::after{background:#4a8c2a}
-.card.active-nani::after{background:#CC1E0A}
-.card.active-coin::after{background:#f0a500}
+.cards{display:flex;flex-direction:column;gap:6px;background:transparent;border-radius:6px}
+.card{background:#110d1c;padding:1.8rem 2rem;display:flex;justify-content:space-between;align-items:center;gap:1.5rem;text-decoration:none;color:inherit;transition:background 0.3s,border-color 0.3s;position:relative;overflow:hidden;border:1px solid #1e1630}.card:hover{border-color:#2e2440}
+.card::after{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;opacity:0.4;transition:opacity 0.3s}
+.card:hover::after{opacity:1}
+
 .card-body{min-width:0}
 .card-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:#3a2f52;letter-spacing:0.12em;margin-bottom:0.5rem}
 .card-name{font-size:19px;font-weight:700;letter-spacing:-0.02em;margin-bottom:0.35rem;line-height:1.1;color:#ddd8cc}
-.card.active-rpg .card-name{color:#6abf3a}
-.card.active-nani .card-name{color:#e83820}
-.card.active-coin .card-name{color:#f0a500}
+#c1 .card-name{color:#c86050}
+#c2 .card-name{color:#b07c3a}
+#c3 .card-name{color:#c4aa38}
 .card-desc{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:300;color:#524470;line-height:1.6}
-.card.active-rpg .card-desc{color:#2e5c1a}
-.card.active-nani .card-desc{color:#5c1a10}
-.card.active-coin .card-desc{color:#5c420a}
 .card-tags{display:flex;gap:5px;margin-top:0.8rem;flex-wrap:wrap}
 .tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.1em;padding:3px 7px;border-radius:2px;border:1px solid #1e1630;color:#3a2f52}
 .arrow{color:#3a2f52;font-size:16px;flex-shrink:0;transition:color 0.25s,transform 0.25s;font-family:'JetBrains Mono',monospace}
 .card:hover .arrow{transform:translateX(5px)}
-.card.active-rpg .arrow{color:#4a8c2a}
-.card.active-nani .arrow{color:#CC1E0A}
-.card.active-coin .arrow{color:#f0a500}
+#c1 .arrow{color:#a03028}
+#c2 .arrow{color:#8a5c20}
+#c3 .arrow{color:#9a8420}
 
 .footer{margin-top:3.5rem;padding-top:1.5rem;border-top:1px solid #1a1228;font-family:'JetBrains Mono',monospace;font-size:10px;color:#3a2f52;letter-spacing:0.12em;display:flex;align-items:center;gap:8px;overflow:hidden}
 .footer-prefix{flex-shrink:0}
@@ -77,6 +70,15 @@ canvas#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
   .footer{margin-top:2rem}
   .tag{font-size:8px;padding:2px 5px}
 }
+
+.ghost{position:absolute;right:3rem;bottom:0.2em;font-family:'JetBrains Mono',monospace;font-weight:700;opacity:0;line-height:1;pointer-events:none;z-index:0;user-select:none;transition:opacity 0.25s ease;font-size:clamp(60px,8vw,96px);color:#ddd8cc}
+#c1 .ghost{color:#c86050}
+#c2 .ghost{color:#b07c3a}
+#c3 .ghost{color:#c4aa38}
+
+#c1::after{background:#a03028}
+#c2::after{background:#8a5c20}
+#c3::after{background:#9a8420}
 </style>
 </head>
 <body>
@@ -96,20 +98,10 @@ canvas#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
   <div class="section-label">campos ativos — 3</div>
 
   <div class="cards">
-    <a class="card" id="c1" href="https://sacer-tracinho.github.io/rpgquiz/" target="_blank" rel="noopener">
+    <a class="card" id="c1" href="https://sacer-tracinho.github.io/Nani/" target="_blank" rel="noopener">
+      <div class="ghost" id="ghost-c1">何</div>
       <div class="card-body">
-        <div class="card-num">01 / RPG · PSICOLOGIA</div>
-        <div class="card-name">Perfil do Aventureiro</div>
-        <div class="card-desc">Mapeamento de afinidade com RPG de mesa. 25 dimensões.<br>Resultado entregue como profecia cifrada.</div>
-        <div class="card-tags">
-          <span class="tag">quiz</span><span class="tag">oráculo</span><span class="tag">psicologia</span>
-        </div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" id="c2" href="https://sacer-tracinho.github.io/Nani/" target="_blank" rel="noopener">
-      <div class="card-body">
-        <div class="card-num">02 / MÍDIA · IA</div>
+        <div class="card-num">01 / MÍDIA · IA</div>
         <div class="card-name">何？— Nani</div>
         <div class="card-desc">Oráculo de mídia. Anime, filmes, séries, doramas.<br>A IA encontra a história certa para o momento certo.</div>
         <div class="card-tags">
@@ -118,7 +110,20 @@ canvas#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
       </div>
       <div class="arrow">→</div>
     </a>
+    <a class="card" id="c2" href="https://sacer-tracinho.github.io/rpgquiz/" target="_blank" rel="noopener">
+      <div class="ghost" id="ghost-c2">⚔</div>
+      <div class="card-body">
+        <div class="card-num">02 / RPG · PSICOLOGIA</div>
+        <div class="card-name">Perfil do Aventureiro</div>
+        <div class="card-desc">Mapeamento de afinidade com RPG de mesa. 25 dimensões.<br>Resultado entregue como profecia cifrada.</div>
+        <div class="card-tags">
+          <span class="tag">quiz</span><span class="tag">oráculo</span><span class="tag">psicologia</span>
+        </div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
     <a class="card" id="c3" href="https://sacer-tracinho.github.io/Coinindex/" target="_blank" rel="noopener">
+      <div class="ghost" id="ghost-c3">₿</div>
       <div class="card-body">
         <div class="card-num">03 / FINANÇAS · DADOS</div>
         <div class="card-name">Bitcoin Index</div>
@@ -145,7 +150,7 @@ canvas#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
 const SETS = {
   rpg:  Array.from('⚔⚜✦❖◈◇◆⊕⊗⊙∴∵※⁂✧✩☽☿⚕⚖⚗ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗᛚᛜᛞᛟᚻᚼᛋᛦᛣᛤᛥ'),
   nani: Array.from('何を見る観劇映韓アニメ運命星占夢界道力風水火闇光剣魂神鬼龍花桜雨雪山川海空月日時間愛怒悲喜恋'),
-  coin: Array.from('₿ΞΣ₮Ł₳Ð◎⟠0123456789ABCDEFabcdef#$%@∞≠≡≤≥±∂∫√π×÷⌀∅∇∆'),
+  coin: Array.from('₿Ξ₮Ł₳Ð◎⟠€$£¥₩₣₤₦₱₹฿₫0123456789'),
   base: Array.from('何を見る観劇映韓アニメ運命星占⚔⚜✦❖◈◇◆⊕⊙∴∵ᚠᚢᚦᚨᚱᛁᛃᛇᛏᛒᛖᛗ₿Ξ0123456789ABCDEF∞≠≡∂∫√π')
 };
 
@@ -155,9 +160,9 @@ let W, H, glyphs=[], particles=[], gridLines=[];
 let currentSet='base';
 
 const ATMO = {
-  rpg:  {r:6, g:16,b:8, accent:[74,140,42]},
-  nani: {r:20,g:5, b:8, accent:[204,30,10]},
-  coin: {r:10,g:8, b:18,accent:[240,165,0]},
+  nani: {r:22,g:5, b:5, accent:[168,48,40]},
+  rpg:  {r:18,g:12,b:4, accent:[176,124,58]},
+  coin: {r:20,g:16,b:2, accent:[210,175,30]},
   base: {r:13,g:10,b:20,accent:[90,70,160]}
 };
 let atmoState={r:13,g:10,b:20,accent:[90,70,160]};
@@ -258,8 +263,8 @@ function bgDraw(){
 }
 
 [
-  {id:'c1',atmo:ATMO.rpg, cls:'active-rpg', set:'rpg'},
-  {id:'c2',atmo:ATMO.nani,cls:'active-nani',set:'nani'},
+  {id:'c1',atmo:ATMO.nani,cls:'active-nani',set:'nani'},
+  {id:'c2',atmo:ATMO.rpg, cls:'active-rpg', set:'rpg'},
   {id:'c3',atmo:ATMO.coin,cls:'active-coin',set:'coin'},
 ].forEach(({id,atmo,cls,set})=>{
   const el=document.getElementById(id);
@@ -360,6 +365,41 @@ document.fonts.ready.then(()=>{
 
 
 
+
+/* ghost glyphs */
+const GHOST_SETS = {
+  'ghost-c1': Array.from('何を見る観劇映韓アニメ運命星占夢界道力風水火闇光剣魂神鬼龍花桜雨雪山川海空月日時間愛怒悲喜恋'),
+  'ghost-c2': Array.from('⚔⚜✦❖◈⊕⊗⚕⚖⚗☽✧✩ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗᛚᛜᛞᛟᚻᚼᛋᛦ'),
+  'ghost-c3': Array.from('₿Ξ€$£¥₩₣₤₦₱₹฿₫₭₮₯₰₲₴₵₶₷₸₺₼₽¢#0123456789')
+};
+const ghostTimers = {};
+function startGhost(id, set){
+  const el = document.getElementById(id);
+  if(!el || ghostTimers[id]) return;
+  el.style.opacity = '0.055';
+  function next(){
+    el.style.opacity = '0.01';
+    setTimeout(()=>{
+      el.textContent = set[Math.floor(Math.random()*set.length)];
+      el.style.opacity = '0.055';
+      ghostTimers[id] = setTimeout(next, Math.random()*500+500);
+    }, 250);
+  }
+  ghostTimers[id] = setTimeout(next, Math.random()*800);
+}
+function stopGhost(id){
+  clearTimeout(ghostTimers[id]);
+  ghostTimers[id] = null;
+  const el = document.getElementById(id);
+  if(el) el.style.opacity = '0';
+}
+
+// ghosts always visible — start immediately
+[
+  {gid:'ghost-c1',set:GHOST_SETS['ghost-c1']},
+  {gid:'ghost-c2',set:GHOST_SETS['ghost-c2']},
+  {gid:'ghost-c3',set:GHOST_SETS['ghost-c3']},
+].forEach(({gid,set})=>startGhost(gid,set));
 
 </script>
 </body>
