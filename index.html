@@ -614,13 +614,23 @@ document.fonts.ready.then(()=>{
 
 /* ── EASTER EGG ──────────────────────────────────────────────
    7x clique no título  → gatinho
-   7x clique no gatinho em < 5s → Top Gear SNES
+   7x clique no gatinho em < 5s → seleção de jogo → emulador SNES
 ─────────────────────────────────────────────────────────────── */
 (function(){
   var taps = 0, lastTap = 0, shown = false;
   var gifSrc = 'https://death-label.github.io/zero/Cute_Cat_GIF.gif';
-  var ROM_URL = 'https://death-label.github.io/zero/drivefaster.smc';
+  var BASE     = 'https://death-label.github.io/zero/';
   var EJS_PATH = 'https://cdn.emulatorjs.org/stable/data/';
+
+  var GAMES = [
+    { name: 'Top Gear',                                   url: BASE+'wot/drivefast.smc' },
+    { name: 'Donkey Kong Country 2',                      url: BASE+'wot/banana.smc'    },
+    { name: 'Super Mario Kart',                           url: BASE+'wot/chaos.smc'     },
+    { name: 'Super Mario All-Stars + Super Mario World',  url: BASE+'wot/classics.smc'  },
+    { name: 'Aladdin',                                    url: BASE+'wot/hthief.smc'    },
+    { name: 'TMNT IV: Turtles in Time ♥',                 url: BASE+'mom.smc'           },
+    { name: 'Goof Troop',                                 url: BASE+'dad.smc'           },
+  ];
 
   /* ─ keyboard dispatch para controles mobile ─ */
   var BTN_KEYS = {
@@ -702,8 +712,61 @@ document.fonts.ready.then(()=>{
       try{ screen.orientation.unlock(); }catch(e){}
   }
 
+  /* ─ tela de seleção de jogo ─ */
+  function showGameSelect(){
+    var sel = document.createElement('div');
+    sel.id = '_game-select';
+    sel.style.cssText = 'position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(13,10,20,0.93)';
+
+    var box = document.createElement('div');
+    box.style.cssText = 'display:flex;flex-direction:column;gap:5px;width:min(540px,92%);';
+
+    var lbl = document.createElement('div');
+    lbl.style.cssText = 'font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:0.2em;color:#3a2f52;text-transform:uppercase;display:flex;align-items:center;gap:14px;margin-bottom:0.9rem';
+    lbl.innerHTML = '// SELECIONE O JOGO&nbsp;<span style="flex:1;height:1px;background:#1a1228;display:inline-block"></span>';
+    box.appendChild(lbl);
+
+    GAMES.forEach(function(game, i){
+      var row = document.createElement('div');
+      row.style.cssText = 'background:#110d1c;border:1px solid #1e1630;padding:1rem 1.4rem;display:flex;align-items:center;gap:1rem;cursor:pointer;transition:background 0.18s,border-color 0.18s';
+
+      var num = document.createElement('span');
+      num.style.cssText = 'font-family:JetBrains Mono,monospace;font-size:9px;color:#3a2f52;letter-spacing:0.12em;flex-shrink:0';
+      num.textContent = String(i+1).padStart(2,'0');
+
+      var name = document.createElement('span');
+      name.style.cssText = 'font-family:Syne,sans-serif;font-size:14px;font-weight:700;color:#ddd8cc;flex:1;letter-spacing:-0.01em';
+      name.textContent = game.name;
+
+      var arr = document.createElement('span');
+      arr.style.cssText = 'font-family:JetBrains Mono,monospace;color:#3a2f52;font-size:14px;transition:color 0.18s,transform 0.18s;flex-shrink:0';
+      arr.textContent = '→';
+
+      row.appendChild(num); row.appendChild(name); row.appendChild(arr);
+
+      row.addEventListener('mouseenter', function(){
+        row.style.background='#1a1228'; row.style.borderColor='#2e2440';
+        arr.style.color='#7a60c0'; arr.style.transform='translateX(5px)';
+      });
+      row.addEventListener('mouseleave', function(){
+        row.style.background='#110d1c'; row.style.borderColor='#1e1630';
+        arr.style.color='#3a2f52'; arr.style.transform='';
+      });
+      row.addEventListener('click', function(e){
+        e.stopPropagation();
+        sel.remove();
+        launchEmulator(game);
+      });
+      box.appendChild(row);
+    });
+
+    sel.appendChild(box);
+    sel.addEventListener('click', function(){ sel.remove(); });
+    document.body.appendChild(sel);
+  }
+
   var ejsLoaded = false;
-  function launchEmulator(){
+  function launchEmulator(game){
     var cat = document.getElementById('_easter');
     if(cat) cat.remove();
     shown = false;
@@ -758,7 +821,7 @@ document.fonts.ready.then(()=>{
     /* header */
     var hdr = document.createElement('div'); hdr.className = 'emu-header';
     var ttl = document.createElement('span'); ttl.className = 'emu-title';
-    ttl.textContent = '// TOP GEAR \u00b7 SUPER NINTENDO';
+    ttl.textContent = '// ' + game.name.toUpperCase() + ' \u00b7 SUPER NINTENDO';
     var cls = document.createElement('button'); cls.className = 'emu-close';
     cls.textContent = '// \u2715 FECHAR';
     cls.onclick = function(){ closeEmu(); };
@@ -777,31 +840,13 @@ document.fonts.ready.then(()=>{
     gw.appendChild(rh);
     emu.appendChild(gw);
 
-    /* controles mobile ou hint desktop */
-    if(isMobile){
-      var ctrls = document.createElement('div'); ctrls.className = 'emu-controls';
-      ctrls.appendChild(buildDpad());
-      ctrls.appendChild(buildMid());
-      ctrls.appendChild(buildFace());
-      emu.appendChild(ctrls);
-    } else {
-      var hint = document.createElement('div'); hint.className = 'emu-hint';
-      [['\u2191\u2193\u2190\u2192','DIRECIONAL'],['Z','B'],['X','A'],['A','Y'],['S','X'],
-       ['Q','L'],['W','R'],['ENTER','START'],['SHIFT','SELECT']].forEach(function(p){
-        var s = document.createElement('span');
-        s.innerHTML = '<b>'+p[0]+'</b>&nbsp;'+p[1];
-        hint.appendChild(s);
-      });
-      emu.appendChild(hint);
-    }
-
     backdrop.appendChild(emu);
     document.body.appendChild(backdrop);
 
     /* EmulatorJS */
     window.EJS_player         = '#ejs-game';
     window.EJS_core           = 'snes';
-    window.EJS_gameUrl        = ROM_URL;
+    window.EJS_gameUrl        = game.url;
     window.EJS_pathtodata     = EJS_PATH;
     window.EJS_startOnLoaded  = true;
     window.EJS_color          = '#7a60c0';
@@ -848,7 +893,7 @@ document.fonts.ready.then(()=>{
       catLastTap = now; catTaps++;
       img.style.opacity = '0.35';
       setTimeout(function(){ img.style.opacity = '1'; }, 110);
-      if(catTaps >= 7){ catTaps = 0; launchEmulator(); }
+      if(catTaps >= 7){ catTaps = 0; overlay.remove(); shown = false; showGameSelect(); }
     });
 
     overlay.addEventListener('click', function(){ overlay.remove(); shown = false; });
