@@ -358,7 +358,7 @@ body.light #c5:hover{background:#d8e8f4}
         <div class="card-num">03 / FINANÇAS · DADOS</div>
         <div class="card-name">Bitcoin Index</div>
         <div class="card-desc">Monitor compacto de BTC em tempo real. Mayer Multiple,<br>câmbio BRL/USD ao vivo via Binance WebSocket.</div>
-        <div class="card-tags">
+        <div class="card-tags" style="position:relative;">
           <span class="tag">bitcoin</span><span class="tag">tempo real</span><span class="tag">binance</span>
           <span class="lite-wrap">
             <span class="lite-tag" onclick="event.stopPropagation();window.open('https://death-label.github.io/coinindexlite/','_blank')">
@@ -1355,9 +1355,10 @@ function stopGhost(id){
     if(playing){ audio.load(); audio.play().catch(()=>{}); }
   });
 
-  /* autoplay no primeiro clique em qualquer lugar da página */
-  document.addEventListener('click', function firstClick(){
-    document.removeEventListener('click', firstClick);
+  /* autoplay no primeiro toque/clique em qualquer lugar da página
+     usa pointerdown para não ser bloqueado por stopPropagation em elementos filhos */
+  document.addEventListener('pointerdown', function firstClick(){
+    document.removeEventListener('pointerdown', firstClick);
     if(!playing) window.toggleRadio();
   }, {once: true});
 })();
