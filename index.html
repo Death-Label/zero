@@ -214,6 +214,12 @@ body.light #c4:hover{background:#dde8de}
 #c5 .arrow{color:#1a5a8a}
 #c5:hover{background:#080e18}
 body.light #c5:hover{background:#d8e8f4}
+#c6::after{background:#6a3a9a}
+#c6 .card-name{color:#9a5cc8}
+#c6 .ghost{color:#9a5cc8}
+#c6 .arrow{color:#6a3a9a}
+#c6:hover{background:#0e0818}
+body.light #c6:hover{background:#ecdcf8}
 
 /* ── EMULATOR OVERLAY ── */
 #_emu-backdrop{
@@ -325,7 +331,7 @@ body.light #c5:hover{background:#d8e8f4}
     </div>
   </div>
 
-  <div class="section-label">campos ativos — 5</div>
+  <div class="section-label">campos ativos — 6</div>
 
   <div class="cards">
     <a class="card" id="c1" href="https://death-label.github.io/Nani/" target="_blank" rel="noopener">
@@ -395,6 +401,18 @@ body.light #c5:hover{background:#d8e8f4}
       </div>
       <div class="arrow">→</div>
     </a>
+    <a class="card" id="c6" href="https://death-label.github.io/pkmc/" target="_blank" rel="noopener">
+      <div class="ghost" id="ghost-c6">◎</div>
+      <div class="card-body">
+        <div class="card-num">06 / GAMES · COLEÇÃO</div>
+        <div class="card-name">Trainer's Ledger</div>
+        <div class="card-desc">Registro completo da sua coleção física Pokémon.<br>Status, anotações e estatísticas por geração.</div>
+        <div class="card-tags">
+          <span class="tag">pokémon</span><span class="tag">coleção</span><span class="tag">tracker</span>
+        </div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
   </div>
 
   <div class="footer">
@@ -414,6 +432,7 @@ const SETS = {
   coin: Array.from('₿Ξ₮Ł₳Ð◎⟠€$£¥₩₣₤₦₱₹฿₫0123456789'),
   symb: Array.from('ᛟᚱᛞᛇᚦᚠᛚᛜᚾᛁᚲᚷᛗᚹᚺ✦❖⊕☽∴⁂⚗⚜◈'),
   card: Array.from('₿$€£¥₩₣₤₦₱₹฿₫◈✦❖▶▷◁▲▼0123456789ABCDEF%‰∑∞≠≡∂√'),
+  pkmc: Array.from('◎◉●○◐◑◒◓◔◕①②③④⑤⑥⑦⑧⑨★☆✦✧⊕⊗❋❊❉♾✕✖'),
   base: Array.from('何を見る観劇映韓アニメ運命星占⚔⚜✦❖◈◇◆⊕⊙∴∵ᚠᚢᚦᚨᚱᛁᛃᛇᛏᛒᛖᛗ₿Ξ0123456789ABCDEF∞≠≡∂∫√π')
 };
 
@@ -428,6 +447,7 @@ const ATMO = {
   coin: {r:20,g:16,b:2, accent:[210,175,30]},
   symb: {r:5, g:14,b:8, accent:[58,96,69]},
   card: {r:4, g:10,b:22,accent:[26,90,138]},
+  pkmc: {r:10,g:5,b:22,accent:[140,60,200]},
   base: {r:13,g:10,b:20,accent:[90,70,160]}
 };
 let atmoState={r:13,g:10,b:20,accent:[90,70,160]};
@@ -550,6 +570,7 @@ function bgDraw(){
   {id:'c3',atmo:ATMO.coin,cls:'active-coin',set:'coin'},
   {id:'c4',atmo:ATMO.symb,cls:'active-symb',set:'symb'},
   {id:'c5',atmo:ATMO.card,cls:'active-card',set:'card'},
+  {id:'c6',atmo:ATMO.pkmc,cls:'active-pkmc',set:'pkmc'},
 ].forEach(({id,atmo,cls,set})=>{
   const el=document.getElementById(id);
   el.addEventListener('mouseenter',()=>{
@@ -1206,7 +1227,8 @@ const GHOST_SETS = {
   'ghost-c2': Array.from('⚔⚜✦❖◈⊕⊗⚕⚖⚗☽✧✩ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗᛚᛜᛞᛟᚻᚼᛋᛦ'),
   'ghost-c3': Array.from('₿Ξ€$£¥₩₣₤₦₱₹฿₫₭₮₯₰₲₴₵₶₷₸₺₼₽¢#0123456789'),
   'ghost-c4': Array.from('ᛟᚱᛞᛇᚦᚠᛚᛜᚾᛁᚲᚷᛗᚹᚺ✦❖⊕☽∴⁂⚗⚜◈'),
-  'ghost-c5': Array.from('₿$€£¥₩₣₤₦₱₹฿₫₭₮₯₰₲₴₵₶₷₸₺₼₽¢◈✦❖▶▷◀◁▲△▼▽')
+  'ghost-c5': Array.from('₿$€£¥₩₣₤₦₱₹฿₫₭₮₯₰₲₴₵₶₷₸₺₼₽¢◈✦❖▶▷◀◁▲△▼▽'),
+  'ghost-c6': Array.from('◎◉●○◐◑◒◓◔◕①②③④⑤⑥⑦⑧⑨★☆✦✧⊕⊗❋❊❉♾✕✖')
 };
 const ghostTimers = {};
 function startGhost(id, set){
@@ -1237,6 +1259,7 @@ function stopGhost(id){
   {gid:'ghost-c3',set:GHOST_SETS['ghost-c3']},
   {gid:'ghost-c4',set:GHOST_SETS['ghost-c4']},
   {gid:'ghost-c5',set:GHOST_SETS['ghost-c5']},
+  {gid:'ghost-c6',set:GHOST_SETS['ghost-c6']},
 ].forEach(({gid,set})=>startGhost(gid,set));
 
 /* ── RADIO PLAYER ─────────────────────────────────────────────
